@@ -1,10 +1,11 @@
 import styled from "styled-components"
+import { Link } from "react-router-dom";
+
 
 export default function TelaLogin({icon}){
 
     return(
-        <>
-        <Content>
+        <> 
             <Icon>
                 <img src={icon} alt="icon" />
             </Icon>
@@ -14,39 +15,27 @@ export default function TelaLogin({icon}){
             </DivInput>
 
             <DivButton>
-                <button>ENTRAR</button>
+                <button>Entrar</button>
+                <Link to={`/cadastro`}>
                 <p>Não tem uma conta? Cadastre-se!</p>
+                </Link>
             </DivButton>
-
-        </Content>
         </>
     )
 }
 
-const Content = styled.div`
-    width: 375px;
-    height: 667px;
-    background-color: black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`
+
 const Icon = styled.div`
     width: 180px;
     height: 178px;
-    margin: 160px 0 30px 0;
-    background-color: green;
+    margin: 68px 0 30px 0;
   
 `
 
 const DivInput = styled.div`
     display: flex;
     flex-direction: column;
-    background-color: blue;
-    font-family: 'Lexend Deca';
     
-    
-
   & input{
         width: 303px;
         height: 45px;
@@ -57,11 +46,12 @@ const DivInput = styled.div`
 `
 
 const DivButton = styled.div`
-    background-color: red;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    font-size: 13px;
     & button{
         width: 303px;
         height: 45px;
@@ -69,6 +59,8 @@ const DivButton = styled.div`
         border-radius: 4px;
         cursor: pointer;
         margin-bottom: 25px;
+        color: #FFFFFF;
+        font-size: 21px;
 }
 `
 

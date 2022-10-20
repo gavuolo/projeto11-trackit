@@ -45,8 +45,17 @@ table {
 }
 *{
 	box-sizing: border-box;
-	font-family: 'Roboto';
-	
+	font-family: 'Lexend Deca';
+	font-style: normal;
+	font-weight: 400;
+	cursor: default;
+}
+h3{
+	font-family: 'Playball';
+	font-style: normal;
+	font-weight: 400;
+	font-size: 39px;
+	line-height: 49px;
 }
 `
 export default GlobalStyle
