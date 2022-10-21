@@ -1,8 +1,12 @@
 import styled from "styled-components"
 import TopBar from "../TopBar"
 import Footer from "../Footer"
+import { AuthContext } from "../contexts/AuthContext";
+import { useContext, useState } from "react";
 
 export default function TelaHabitos(){
+    const { signIn } = useContext(AuthContext)
+
     return(<>
     <TopBar/>
     <DivContent>
@@ -10,7 +14,10 @@ export default function TelaHabitos(){
             <p>Meus hábitos</p>
             <button type="button">+</button>
         </MeusHabitos>
-    <TextoAviso>Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</TextoAviso>
+    <TextoAviso>
+    Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!
+    
+    </TextoAviso>
         
 
     </DivContent>

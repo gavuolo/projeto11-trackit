@@ -1,7 +1,37 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom";
-export default function TelaCadastro({icon}){
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import React, { useContext } from 'react';
+import { AuthContext } from "../contexts/AuthContext";
+import axios from "axios";
 
+
+
+export default function TelaCadastro({icon}){
+    const [form, setForm] = useState({email: "", name: "", image: "", password:""});
+
+    const { algo } = useContext(AuthContext)
+    const navigate = useNavigate("/")
+    
+    function Confirmacao(){
+
+        
+        
+        console.log(form)
+        const post = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", form)
+        post.then(() => {
+            console.log("FUNCIONOU")
+            navigate("/")
+        })
+        post.catch(erro => alert(erro.response.data));
+        
+    }
+
+    function Formulario(e){
+        const {name, value} = e.target
+        setForm({...form, [name]: value })
+        console.log(form)
+    }
         return(
             <>
             
@@ -9,14 +39,38 @@ export default function TelaCadastro({icon}){
                     <img src={icon} alt="icon" />
                 </Icon>
                 <DivInput>
-                    <input type="text" placeholder="email" />
-                    <input type="text" placeholder="senha"/>
-                    <input type="text" placeholder="nome"/>
-                    <input type="text" placeholder="foto"/>
+                    <input
+                        name="email"
+                        type="text" 
+                        placeholder="email" 
+                        value={form.email} 
+                        onChange={Formulario} 
+                    />
+                    <input
+                        name="password"
+                        type="text" 
+                        placeholder="senha"
+                        value={form.password}
+                        onChange={Formulario}
+                    />
+                    <input
+                        name="name"
+                        type="text" 
+                        placeholder="nome"
+                        value={form.name}
+                        onChange={Formulario}
+                    />
+                    <input
+                        name="image"
+                        type="text" 
+                        placeholder="foto"
+                        value={form.image}
+                        onChange={Formulario}
+                    />
                 </DivInput>
     
                 <DivButton>
-                    <button>Cadastrar</button>
+                    <button onClick={Confirmacao}>Cadastrar</button>
                     <Link to={`/`}>
                     <p>Já tem uma conta? Faça login!</p>
                     </Link>

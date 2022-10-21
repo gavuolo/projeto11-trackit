@@ -1,21 +1,42 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom";
+import { Link, useNavigate} from "react-router-dom";
+import { useContext, useState } from "react";
 
+import { AuthContext } from "../contexts/AuthContext"
 
 export default function TelaLogin({icon}){
 
+    const [email, setEmail] = useState('')
+    const [senha, setSenha] = useState('')
+    const navigate = useNavigate()
+
+    function Entrar(){
+        console.log("oi")
+        //Se a requisição der certa
+        navigate("/habitos")
+    }
     return(
         <> 
             <Icon>
                 <img src={icon} alt="icon" />
             </Icon>
             <DivInput>
-                <input type="text" placeholder="email" />
-                <input type="text" placeholder="senha"/>
+                <input 
+                    type="text" 
+                    placeholder="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <input 
+                    type="text" 
+                    placeholder="senha"
+                    value={senha}
+                    onChange={(e) => setSenha(e.target.value)}
+                />
             </DivInput>
 
             <DivButton>
-                <button>Entrar</button>
+                <button onClick={Entrar}>Entrar</button>
                 <Link to={`/cadastro`}>
                 <p>Não tem uma conta? Cadastre-se!</p>
                 </Link>
