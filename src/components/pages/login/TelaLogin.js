@@ -2,7 +2,8 @@ import styled from "styled-components"
 import { Link, useNavigate} from "react-router-dom";
 import { useContext, useState } from "react";
 import axios from "axios";
-import { AuthContext } from "../contexts/AuthContext"
+import { AuthContext } from "../contexts/AuthContext";
+
 
 export default function TelaLogin({icon}){
 
@@ -10,13 +11,7 @@ export default function TelaLogin({icon}){
     const [password, setPassword] = useState('')
 
     const navigate = useNavigate()
-    const {user, setUser } = useContext(AuthContext)
-
-    /*function Formulario(e){
-        const {name, value} = e.target
-        setForm({...form, [name]: value })
-    }*/
-
+    const { user, setUser } = useContext(AuthContext)
 
     function Entrar(){
         const obj ={
@@ -24,15 +19,12 @@ export default function TelaLogin({icon}){
             email: email
         }
         console.log(obj)
-       const post = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", obj)
+        const post = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", obj)
         post.then((e) => {
-            console.log("FUNCIONOU")
             setUser(e.data)
             navigate("/habitos")
         })
         post.catch(erro => alert(erro.data));
-        //Se a requisição der certa
-       
     }
     return(
         <> 
@@ -103,7 +95,10 @@ const DivButton = styled.div`
         margin-bottom: 25px;
         color: #FFFFFF;
         font-size: 21px;
-}
+    }
+    & p{
+        cursor: pointer
+    }
 `
 
 

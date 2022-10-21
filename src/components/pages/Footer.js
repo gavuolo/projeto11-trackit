@@ -1,11 +1,34 @@
 import styled from "styled-components"
+import { CircularProgressbar,  buildStyles } from "react-circular-progressbar";
+import 'react-circular-progressbar/dist/styles.css';
+import { useContext, useState } from "react";
+import { AuthContext } from "./contexts/AuthContext";
+
 export default function Footer(){
+
+    const { value, setValue } = useContext(AuthContext)
     return(<>
     <BottomBar>
         <DivHabitos>
             <p>Hábitos</p>
         </DivHabitos>
-        <Circle/>
+       
+        <CircularProgressbar
+        value={value}
+        text={`Hoje`}
+        duration={1.4}
+        background
+        backgroundPadding={6}
+        styles={buildStyles({
+          backgroundColor: "#3e98c7",
+          textColor: "#fff",
+          fontFamily: 'Lexend Deca',
+          fontSize: '18px',
+          pathColor: "#fff",
+          trailColor: "transparent"
+        })}
+        />
+        
         <DivHistorico>
             <p>Histórico</p>
         </DivHistorico>
@@ -51,7 +74,7 @@ const DivHistorico = styled.div`
     cursor: pointer;
 `
 
-const Circle = styled.div`
+/*const Circle = styled.div`
 position: absolute;
 bottom: 0;
 left: 37%;
@@ -59,4 +82,4 @@ width: 91px;
 height: 91px;
 border-radius: 50%;
 background: #52B6FF;
-`
+`*/

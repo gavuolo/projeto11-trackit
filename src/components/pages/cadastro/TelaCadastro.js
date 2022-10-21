@@ -112,6 +112,9 @@ export default function TelaCadastro({icon}){
             margin-bottom: 25px;
             color: #FFFFFF;
             font-size: 21px;
-    }
+        }
+        & p{
+        cursor: pointer
+        }
     `
     

@@ -4,8 +4,11 @@ import Footer from "../Footer"
 import { AuthContext } from "../contexts/AuthContext";
 import { useContext, useState } from "react";
 
+
 export default function TelaHabitos(){
-    const {user, setUser } = useContext(AuthContext)
+    const { user, setUser } = useContext(AuthContext)
+
+    const { value, setValue } = useContext(AuthContext)
 
     function Clicou(){
 
@@ -14,7 +17,7 @@ export default function TelaHabitos(){
 
     return(<>
     <TopBar />
-    <DivImage src={user.image} alt="icon" />
+    
     <DivContent>
         <MeusHabitos>
             <p>Meus hábitos</p>
@@ -66,15 +69,4 @@ const MeusHabitos = styled.div`
         cursor: pointer;
     }
 
-`
-const DivImage = styled.img`
-    max-width: 51px;
-    max-height: 51px;
-    border-radius: 100%;
-    background-color: #FFFFFF;
-    z-index: 1;
-    position: absolute;
-    left: 1;
-    right: 0;
-    margin: 9px 18px 10px 0;
 `
