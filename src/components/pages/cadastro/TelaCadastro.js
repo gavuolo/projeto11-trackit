@@ -2,22 +2,18 @@ import styled from "styled-components"
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import React, { useContext } from 'react';
-import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 
 
 
 export default function TelaCadastro({icon}){
     const [form, setForm] = useState({email: "", name: "", image: "", password:""});
-
-    const { algo } = useContext(AuthContext)
+    
     const navigate = useNavigate("/")
     
-    function Confirmacao(){
 
+    function Confirmacao(){
         
-        
-        console.log(form)
         const post = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up", form)
         post.then(() => {
             console.log("FUNCIONOU")
@@ -34,7 +30,6 @@ export default function TelaCadastro({icon}){
     }
         return(
             <>
-            
                 <Icon>
                     <img src={icon} alt="icon" />
                 </Icon>

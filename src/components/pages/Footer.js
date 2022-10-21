@@ -5,6 +5,7 @@ export default function Footer(){
         <DivHabitos>
             <p>Hábitos</p>
         </DivHabitos>
+        <Circle/>
         <DivHistorico>
             <p>Histórico</p>
         </DivHistorico>
@@ -15,11 +16,11 @@ export default function Footer(){
 const BottomBar = styled.div`
     width: 375px;
     height: 70px;
-    background-color: #FFFFFF;
     display: flex;
     position: fixed;
     bottom: 0;
     top: 1;
+
 `
 
 const DivHabitos = styled.div`
@@ -33,7 +34,6 @@ const DivHabitos = styled.div`
     font-size: 17.976px;
     line-height: 22px;
     color: #52B6FF;
-    background-color: red;
     cursor: pointer;
 `
 
@@ -48,6 +48,15 @@ const DivHistorico = styled.div`
     font-size: 17.976px;
     line-height: 22px;
     color: #52B6FF;
-    background-color: blue;
     cursor: pointer;
+`
+
+const Circle = styled.div`
+position: absolute;
+bottom: 0;
+left: 37%;
+width: 91px;
+height: 91px;
+border-radius: 50%;
+background: #52B6FF;
 `

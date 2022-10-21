@@ -18,6 +18,7 @@ export default function App(){
     <BrowserRouter>
         <GlobalStyle/>
         <Content>
+            
             <AuthProvider>
                 <Routes>
                     <Route path="/" element={<TelaLogin icon={icon}/>}/>

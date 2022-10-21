@@ -49,6 +49,7 @@ table {
 	font-style: normal;
 	font-weight: 400;
 	cursor: default;
+	
 }
 h3{
 	font-family: 'Playball';
@@ -56,6 +57,9 @@ h3{
 	font-weight: 400;
 	font-size: 39px;
 	line-height: 49px;
+}
+div{
+
 }
 `
 export default GlobalStyle

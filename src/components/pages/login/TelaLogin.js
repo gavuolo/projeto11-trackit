@@ -1,19 +1,38 @@
 import styled from "styled-components"
 import { Link, useNavigate} from "react-router-dom";
 import { useContext, useState } from "react";
-
+import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext"
 
 export default function TelaLogin({icon}){
 
     const [email, setEmail] = useState('')
-    const [senha, setSenha] = useState('')
+    const [password, setPassword] = useState('')
+
     const navigate = useNavigate()
+    const {user, setUser } = useContext(AuthContext)
+
+    /*function Formulario(e){
+        const {name, value} = e.target
+        setForm({...form, [name]: value })
+    }*/
+
 
     function Entrar(){
-        console.log("oi")
+        const obj ={
+            password: password,
+            email: email
+        }
+        console.log(obj)
+       const post = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", obj)
+        post.then((e) => {
+            console.log("FUNCIONOU")
+            setUser(e.data)
+            navigate("/habitos")
+        })
+        post.catch(erro => alert(erro.data));
         //Se a requisição der certa
-        navigate("/habitos")
+       
     }
     return(
         <> 
@@ -21,17 +40,19 @@ export default function TelaLogin({icon}){
                 <img src={icon} alt="icon" />
             </Icon>
             <DivInput>
-                <input 
+                <input
+                    name="email"
                     type="text" 
                     placeholder="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
-                <input 
+                <input
+                    name="password"
                     type="text" 
                     placeholder="senha"
-                    value={senha}
-                    onChange={(e) => setSenha(e.target.value)}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
             </DivInput>
 
