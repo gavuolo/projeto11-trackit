@@ -20,20 +20,22 @@ export default function TelaHoje() {
             <h1>Segunda, 17/05</h1>
             <p>Nenhum hábito concluído ainda</p>
 
-            {habitos.map((a)=>
-              <ContainerList>
-              <Text>
-                  <h4>{a.name}</h4>
-                  <h2>Sequência atual: 3 dias</h2>
-                  <h2>Seu recorde: 5 dias</h2>
-              </Text>
-              <CheckBox>
-                  <ion-icon name="checkmark-outline"></ion-icon>
-              </CheckBox>
-          </ContainerList>
-            
-            )}
-          
+            {habitos !== 0
+                ?
+                habitos.map((a) =>
+                    <ContainerList>
+                        <Text>
+                            <h4>{a.name}</h4>
+                            <h2>Sequência atual: 3 dias</h2>
+                            <h2>Seu recorde: 5 dias</h2>
+                        </Text>
+                        <CheckBox>
+                            <ion-icon name="checkmark-outline"></ion-icon>
+                        </CheckBox>
+                    </ContainerList>)
+            :
+            <></>}
+
         </DivContent>
         <Footer />
     </>)

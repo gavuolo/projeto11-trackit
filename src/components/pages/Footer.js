@@ -1,40 +1,47 @@
 import styled from "styled-components"
-import { CircularProgressbar,  buildStyles } from "react-circular-progressbar";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
 import { useContext, useState } from "react";
 import { AuthContext } from "./contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function Footer(){
+export default function Footer() {
 
     const { value, setValue } = useContext(AuthContext)
     const navigate = useNavigate()
-    return(<>
-    <BottomBar>
-        <DivHabitos onClick={()=> navigate('/habitos')}>
-            <p>Hábitos</p>
-        </DivHabitos>
-       
-        <CircularProgressbar
-        value={value}
-        text={`Hoje`}
-        duration={1.4}
-        background
-        backgroundPadding={6}
-        styles={buildStyles({
-          backgroundColor: "#3e98c7",
-          textColor: "#fff",
-          fontFamily: 'Lexend Deca',
-          fontSize: '18px',
-          pathColor: "#fff",
-          trailColor: "transparent",
-        })}
-        />
-        
-        <DivHistorico onClick={()=> navigate('/historico')}>
-            <p>Histórico</p>
-        </DivHistorico>
-    </BottomBar>
+    return (<>
+        <BottomBar>
+            <DivHabitos onClick={() => navigate('/habitos')}>
+                <p>Hábitos</p>
+            </DivHabitos>
+
+            <DivCirculo onClick={() => navigate('/hoje')}>
+                <CircularProgressbar
+                    value={value}
+                    text={`Hoje`}
+                    duration={1.4}
+                    background
+                    backgroundPadding={6}
+                    styles={buildStyles({
+                        backgroundColor: "#3e98c7",
+                        textColor: "#fff",
+                        fontFamily: 'Lexend Deca',
+                        fontSize: '18px',
+                        pathColor: "#fff",
+                        trailColor: "transparent",
+                    })}
+                />
+
+
+            </DivCirculo>
+              
+         
+
+
+            <DivHistorico onClick={() => navigate('/historico')}>
+                <p>Histórico</p>
+            </DivHistorico>
+        </BottomBar>
     </>)
 }
 
@@ -74,6 +81,14 @@ const DivHistorico = styled.div`
     line-height: 22px;
     color: #52B6FF;
     cursor: pointer;
+`
+const DivCirculo = styled.div`
+width: 91px;
+height: 91px;
+position: absolute;
+right: 40%;
+bottom: 20%;
+cursor: pointer;
 `
 
 /*const Circle = styled.div`
