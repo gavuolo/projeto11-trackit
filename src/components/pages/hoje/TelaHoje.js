@@ -1,28 +1,41 @@
 import styled from "styled-components"
 import TopBar from "../TopBar"
 import Footer from "../Footer"
-
+import { AuthContext } from "../contexts/AuthContext";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import React from "react"
 
-export default function TelaHoje(){
+export default function TelaHoje() {
 
-    return(<>
-    <TopBar /> 
-    <DivContent>
-    <h1>Segunda, 17/05</h1>
-    <p>Nenhum hábito concluído ainda</p>
-    <ContainerList>
-        <Text>
-        <h1>Ler 1 capítulo de livro</h1>
-        <p>Sequência atual: 3 dias</p>
-        <p>Seu recorde: 5 dias</p>
-        </Text>
-        <CheckBox>
-            <ion-icon name="checkmark-outline"></ion-icon>
-        </CheckBox>
-    </ContainerList>
-    </DivContent>
-    <Footer />
+    const { user, setUser } = useContext(AuthContext)
+    const { value, setValue } = useContext(AuthContext)
+    const { habitos, setHabitos } = useContext(AuthContext)
+
+    console.log(habitos)
+
+    return (<>
+        <TopBar />
+        <DivContent>
+            <h1>Segunda, 17/05</h1>
+            <p>Nenhum hábito concluído ainda</p>
+
+            {habitos.map((a)=>
+              <ContainerList>
+              <Text>
+                  <h4>{a.name}</h4>
+                  <h2>Sequência atual: 3 dias</h2>
+                  <h2>Seu recorde: 5 dias</h2>
+              </Text>
+              <CheckBox>
+                  <ion-icon name="checkmark-outline"></ion-icon>
+              </CheckBox>
+          </ContainerList>
+            
+            )}
+          
+        </DivContent>
+        <Footer />
     </>)
 }
 
@@ -63,26 +76,25 @@ const ContainerList = styled.div`
 
 `
 const Text = styled.div`
-
-display: flex;
-align-items: flex-start;
-flex-direction: column;
-justify-content: flex-start;
-& h1{
-    font-family: 'Lexend Deca';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    color: #666666;
-} 
-& p{
-    font-family: 'Lexend Deca';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 10px;
-    line-height: 16px;
-    color: #666666;
-}
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    justify-content: flex-start;
+    & h4{
+        font-family: 'Lexend Deca';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 16px;
+        color: #666666;
+    } 
+    & h2{
+        font-family: 'Lexend Deca';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 16px;
+        color: #666666;
+    }
 
 `
 const CheckBox = styled.div`

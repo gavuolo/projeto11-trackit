@@ -44,6 +44,7 @@ export default function TelaHabitos() {
 
     function EnviarHabito() {
         const obj = [{
+            //FALTA FAZER O ID??? COMO FAZ O ID CARALHO
             name: name,
             days: days,
         }]
@@ -51,10 +52,6 @@ export default function TelaHabitos() {
     }
 
     function ListaHabitos(){
-
-        /*if(habitos.lenght === 0){
-            return (<p> Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>)
-        }else{*/
             console.log(habitos)
 
             return (habitos.map((a, index)=> 
@@ -64,8 +61,8 @@ export default function TelaHabitos() {
                 {a.days.map((b, index) => <ButtonSemana key={index}>{b}</ButtonSemana>)}
                 
             </Habitos>))
-        /*}*/
     }
+
     return (<>
         <TopBar />
 
