@@ -22,7 +22,7 @@ export default function TelaLogin({icon}){
         const post = axios.post("https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login", obj)
         post.then((e) => {
             setUser(e.data)
-            navigate("/habitos")
+            navigate("/hoje")
         })
         post.catch(erro => alert(erro.data));
     }

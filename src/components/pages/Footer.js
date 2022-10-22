@@ -3,13 +3,15 @@ import { CircularProgressbar,  buildStyles } from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
 import { useContext, useState } from "react";
 import { AuthContext } from "./contexts/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Footer(){
 
     const { value, setValue } = useContext(AuthContext)
+    const navigate = useNavigate()
     return(<>
     <BottomBar>
-        <DivHabitos>
+        <DivHabitos onClick={()=> navigate('/habitos')}>
             <p>Hábitos</p>
         </DivHabitos>
        
@@ -25,11 +27,11 @@ export default function Footer(){
           fontFamily: 'Lexend Deca',
           fontSize: '18px',
           pathColor: "#fff",
-          trailColor: "transparent"
+          trailColor: "transparent",
         })}
         />
         
-        <DivHistorico>
+        <DivHistorico onClick={()=> navigate('/historico')}>
             <p>Histórico</p>
         </DivHistorico>
     </BottomBar>
