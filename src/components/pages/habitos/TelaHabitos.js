@@ -52,18 +52,19 @@ export default function TelaHabitos() {
 
     function ListaHabitos(){
 
-        if(habitos.lenght === 0){
+        /*if(habitos.lenght === 0){
             return (<p> Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>)
-        }else{
+        }else{*/
             console.log(habitos)
+
             return (habitos.map((a, index)=> 
             <Habitos key={index}>
                 <h1>{a.name}</h1>
                
-                {a.days.map((b, index) => <ButtonSemana key={index} >{b}</ButtonSemana>)}
+                {a.days.map((b, index) => <ButtonSemana key={index}>{b}</ButtonSemana>)}
                 
             </Habitos>))
-        }
+        /*}*/
     }
     return (<>
         <TopBar />
@@ -120,7 +121,12 @@ export default function TelaHabitos() {
 
             
             <TextoAviso>
-               <ListaHabitos />
+                {habitos.length === 0?
+                <p> Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+                 : 
+                <ListaHabitos /> 
+                }
+              
             </TextoAviso>
 
 
