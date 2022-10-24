@@ -17,7 +17,7 @@ export default function TelaHabitos() {
     const [name, setName] = useState('')
     const [addHabitos, setAddHabitos] = useState(false)
     const [carregando, setCarregando] = useState(false)
-    
+
     const semana = ["D", "S", "T", "Q", "Q", "S", "S"]
     const token = user.token
     const headers = { headers: { Authorization: `Bearer ${token}` } }
@@ -67,15 +67,19 @@ export default function TelaHabitos() {
 
         return (
             (habitos.map((a, index) =>
-                <Habitos key={index} data-identifier="habit-name">
-
+                <Habitos
+                    key={index}
+                    data-identifier="habit-name"
+                >
+                    <Block>
                     <h1>{a.name}</h1>
-
-
                     <Semana>
                         {a.days.map((b, index) => <ButtonSemana key={index}>{b}</ButtonSemana>)}
                     </Semana>
-
+                    </Block>
+                    <Trash>
+                        <ion-icon name="trash-outline"></ion-icon>
+                    </Trash>
                 </Habitos>)))
     }
 
@@ -170,6 +174,17 @@ export default function TelaHabitos() {
 const Semana = styled.div`
     display: flex;
 `
+const Trash = styled.div`
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    display: flex;
+`
+const Block = styled.div`
+    display: flex;
+    flex-direction: column;
+`
+
 const Habitos = styled.div`
     width: 340px;
     height: 91px;
@@ -178,7 +193,17 @@ const Habitos = styled.div`
     border-radius: 5px;
     margin-bottom: 10px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 15px;
+    & h1{
+        font-family: 'Lexend Deca';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 19.976px;
+        line-height: 25px;
+    }
 `
 const ButtonSemana = styled.div`
     display: flex;
