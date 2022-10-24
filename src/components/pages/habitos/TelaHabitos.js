@@ -82,7 +82,15 @@ export default function TelaHabitos() {
                     <Block>
                         <h1>{a.name}</h1>
                         <Semana>
-                            {a.days.map((b, index) => <ButtonSemana key={index}>{b}</ButtonSemana>)}
+                            {semana.map((b, index) => 
+                            <ButtonSemana
+                            cor={a.days.includes(index) ? '#DBDBDB' : '#FFFFFF'}
+                            letra={a.days.includes(index) ? '#FFFFFF' : '#DBDBDB'}
+                            key={index}
+                            >
+                                {b}
+                            </ButtonSemana>
+                            )}
                         </Semana>
                     </Block>
                     <Trash
