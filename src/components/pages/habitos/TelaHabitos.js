@@ -27,15 +27,12 @@ export default function TelaHabitos() {
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
 
         axios.get(URL, headers)
-
             .then((ress) => setHabitos(ress.data))
             .catch((ress) => console.log(ress.response.data.message))
-    }, [addHabitos, carregando])
+    }, [addHabitos, carregando, habitos])
 
     function HabitoDays(a, index) {
-
         setDays([...days, index])
-
         if (!days.includes(index)) {
             setDays([...days, index])
         } else {
@@ -62,6 +59,17 @@ export default function TelaHabitos() {
 
     }
 
+    function DeletarHabito(a) {
+        const URL = `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${a}`
+        
+        if(window.confirm("Quer mesmo deletar este hábito") === true){
+            const del = axios.delete(URL, headers)
+            del.then(res => console.log('oi'))
+            del.catch(erro => alert(erro.respnse.data.mesage))
+        }
+        
+    }
+
     function ListaHabitos() {
         console.log(habitos)
 
@@ -72,15 +80,19 @@ export default function TelaHabitos() {
                     data-identifier="habit-name"
                 >
                     <Block>
-                    <h1>{a.name}</h1>
-                    <Semana>
-                        {a.days.map((b, index) => <ButtonSemana key={index}>{b}</ButtonSemana>)}
-                    </Semana>
+                        <h1>{a.name}</h1>
+                        <Semana>
+                            {a.days.map((b, index) => <ButtonSemana key={index}>{b}</ButtonSemana>)}
+                        </Semana>
                     </Block>
-                    <Trash>
+                    <Trash
+                        onClick={() => DeletarHabito(a.id)}
+                    >
                         <ion-icon name="trash-outline"></ion-icon>
                     </Trash>
-                </Habitos>)))
+                </Habitos>)
+            )
+        )
     }
 
     return (<>
@@ -172,6 +184,7 @@ export default function TelaHabitos() {
 //----------------------------------------------------------------------------------------
 
 const Semana = styled.div`
+    margin-top: 5px;
     display: flex;
 `
 const Trash = styled.div`
@@ -184,7 +197,6 @@ const Block = styled.div`
     display: flex;
     flex-direction: column;
 `
-
 const Habitos = styled.div`
     width: 340px;
     height: 91px;
@@ -297,13 +309,10 @@ const MeusHabitos = styled.div`
     align-items: center;
     justify-content: space-between;
     color: #126BA5;
-
     font-family: 'Lexend Deca';
     font-style: normal;
     font-weight: 400;
     font-size: 23px;
-  
-
     & button{
         width: 40px;
         height: 35px;
