@@ -10,8 +10,11 @@ export default function Footer() {
     const { value, setValue } = useContext(AuthContext)
     const navigate = useNavigate()
     return (<>
-        <BottomBar>
-            <DivHabitos onClick={() => navigate('/habitos')}>
+        <BottomBar >
+            <DivHabitos
+                data-identifier="habit-page-action"
+                onClick={() => navigate('/habitos')}
+            >
                 <p>Hábitos</p>
             </DivHabitos>
 
@@ -34,11 +37,14 @@ export default function Footer() {
 
 
             </DivCirculo>
-              
-         
 
 
-            <DivHistorico onClick={() => navigate('/historico')}>
+
+
+            <DivHistorico
+                data-identifier="historic-page-action"
+                onClick={() => navigate('/historico')}
+            >
                 <p>Histórico</p>
             </DivHistorico>
         </BottomBar>

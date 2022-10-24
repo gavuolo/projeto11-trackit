@@ -5,6 +5,8 @@ import { AuthContext } from "../contexts/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import React from "react"
+import { Navigate, useNavigate } from "react-router-dom";
+import { Loading } from 'react-loading-dot'
 
 export default function TelaHoje() {
 
@@ -12,30 +14,89 @@ export default function TelaHoje() {
     const { value, setValue } = useContext(AuthContext)
     const { habitos, setHabitos } = useContext(AuthContext)
 
-    console.log(habitos)
+    const [habitosHoje, setHabitosHoje] = useState([])
+    const token = user.token
+    const headers = { headers: { Authorization: `Bearer ${token}` } }
+    const [check, setCheck] = useState([])
 
+    let p = ((check.length) / (habitosHoje.length) * 100).toFixed(0)
+    setValue(p)
+
+    //const navigate = useNavigate()
+    //console.log(habitos) 
+    //testar dayjs
+    //const dayjs = require('dayjs')
+    //let dia = dayjs().format('dddd, DD/MM')
+    //console.log(dia)
+
+    useEffect(() => {
+
+        const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today'
+        const get = axios.get(URL, headers)
+        get.then((res) => {
+            setHabitosHoje(res.data)
+        })
+        get.catch((err) => console.log(err.response.data.message))
+    }, []
+    )
+
+    function ClickCheck(a) {
+        setCheck([...check, a])
+
+        if (!check.includes(a)) {
+            setCheck([...check, a])
+        } else {
+            const novaLista = check.filter(d => d !== a)
+            setCheck(novaLista)
+        }
+    }
+    function HojeHabitos() {
+        if (habitosHoje !== 0) {
+            return (
+                <>
+                    {value > 0 ?
+                        <h9>{value}% dos hábitos concluídos</h9>
+                        :
+                        <p>Nenhum hábito concluído ainda</p>
+                    }
+
+                    {habitosHoje.map((a) =>
+                        <ContainerList
+                            data-identifier="today-infos"
+                            key={a.id}
+                        >
+                            <Text>
+                                <h4>{a.name}</h4>
+                                <h2>Sequência atual: {a.currentSequence} dias</h2>
+                                <h2>Seu recorde: {a.highestSequence} dias</h2>
+                            </Text>
+                            <CheckBox
+                                data-identifier="done-habit-btn"
+                                cor={check.includes(a) ? '#8FC549' : '#EBEBEB'}
+                                onClick={() => ClickCheck(a)}
+                            >
+                                <ion-icon name="checkmark-outline"></ion-icon>
+                            </CheckBox>
+                        </ContainerList>)}
+                </>
+            )
+        } else {
+            return (
+                <Loading
+                    size="1rem"
+                    margin="0rem"
+                    duration="0.5s"
+                    background="black"
+                />)
+        }
+    }
     return (<>
         <TopBar />
         <DivContent>
             <h1>Segunda, 17/05</h1>
-            <p>Nenhum hábito concluído ainda</p>
+            <HojeHabitos
 
-            {habitos !== 0
-                ?
-                habitos.map((a) =>
-                    <ContainerList>
-                        <Text>
-                            <h4>{a.name}</h4>
-                            <h2>Sequência atual: 3 dias</h2>
-                            <h2>Seu recorde: 5 dias</h2>
-                        </Text>
-                        <CheckBox>
-                            <ion-icon name="checkmark-outline"></ion-icon>
-                        </CheckBox>
-                    </ContainerList>)
-            :
-            <></>}
-
+            />
         </DivContent>
         <Footer />
     </>)
@@ -63,6 +124,15 @@ const DivContent = styled.div`
         font-size: 17.976px;
         line-height: 22px;
         color: #BABABA;
+    }
+    & h9{
+        margin-left: 17px;
+        font-family: 'Lexend Deca';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 17.976px;
+        line-height: 22px;
+        color: #8FC549;
     }
 `
 const ContainerList = styled.div`
@@ -110,8 +180,7 @@ const CheckBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    background: /*#EBEBEB*/ #8FC549;
+    background: ${props => props.cor};
     
     & ion-icon{
         cursor: pointer;

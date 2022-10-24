@@ -35,6 +35,7 @@ export default function TelaCadastro({icon}){
                 </Icon>
                 <DivInput>
                     <input
+                        data-identifier="input-email"
                         name="email"
                         type="text" 
                         placeholder="email" 
@@ -42,6 +43,7 @@ export default function TelaCadastro({icon}){
                         onChange={Formulario} 
                     />
                     <input
+                        data-identifier="input-password" 
                         name="password"
                         type="text" 
                         placeholder="senha"
@@ -49,6 +51,7 @@ export default function TelaCadastro({icon}){
                         onChange={Formulario}
                     />
                     <input
+                        data-identifier="input-name"
                         name="name"
                         type="text" 
                         placeholder="nome"
@@ -56,6 +59,7 @@ export default function TelaCadastro({icon}){
                         onChange={Formulario}
                     />
                     <input
+                        data-identifier="input-photo"
                         name="image"
                         type="text" 
                         placeholder="foto"
@@ -66,7 +70,7 @@ export default function TelaCadastro({icon}){
     
                 <DivButton>
                     <button onClick={Confirmacao}>Cadastrar</button>
-                    <Link to={`/`}>
+                    <Link data-identifier="back-to-login-action" to={`/`}>
                     <p>Já tem uma conta? Faça login!</p>
                     </Link>
                 </DivButton>

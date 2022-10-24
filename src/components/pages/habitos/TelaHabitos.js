@@ -4,63 +4,79 @@ import Footer from "../Footer"
 import { AuthContext } from "../contexts/AuthContext";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { ThreeDots } from 'react-loader-spinner'
 
 
 export default function TelaHabitos() {
+    //Contextos
     const { user, setUser } = useContext(AuthContext)
     const { value, setValue } = useContext(AuthContext)
     const { habitos, setHabitos } = useContext(AuthContext)
-    const { semanaSel, setSemanaSel } = useState()
-
-
-
-
-    const semana = ["D", "S", "T", "Q", "Q", "S", "S"]
-
+    //Estados
     const [days, setDays] = useState([])
     const [name, setName] = useState('')
     const [addHabitos, setAddHabitos] = useState(false)
-
-    const [semanaSelect, setSemanaSelect] = useState([])
+    const [carregando, setCarregando] = useState(false)
+    
+    const semana = ["D", "S", "T", "Q", "Q", "S", "S"]
+    const token = user.token
+    const headers = { headers: { Authorization: `Bearer ${token}` } }
 
     useEffect(() => {
         const token = user.token
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
 
-        axios.get(URL, { headers: { 'Authorization': `Bearer ${token}` } })
-            .then((ress) => console.log(ress.data))
-            .catch((ress) => console.log(ress.response.data))
-    }, [])
+        axios.get(URL, headers)
+
+            .then((ress) => setHabitos(ress.data))
+            .catch((ress) => console.log(ress.response.data.message))
+    }, [addHabitos, carregando])
 
     function HabitoDays(a, index) {
+
         setDays([...days, index])
+
         if (!days.includes(index)) {
             setDays([...days, index])
         } else {
-            const novaLista = days.filter(s => s !== index)
+            const novaLista = days.filter(d => d !== index)
             setDays(novaLista)
         }
     }
 
     function EnviarHabito() {
-        const obj = [{
-            //FALTA FAZER O ID??? COMO FAZ O ID CARALHO
+        setCarregando(true)
+        const obj = {
             name: name,
             days: days,
-        }]
-        console.log(obj)
+        }
+
+        const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
+        const post = axios.post(URL, obj, headers)
+
+        post.then(() => {
+            setCarregando(false)
+            setAddHabitos(false)
+        })
+        post.catch(erro => alert(erro.response.data.message))
+
     }
 
-    function ListaHabitos(){
-            console.log(habitos)
+    function ListaHabitos() {
+        console.log(habitos)
 
-            return (habitos.map((a, index)=> 
-            <Habitos key={index}>
-                <h1>{a.name}</h1>
-               
-                {a.days.map((b, index) => <ButtonSemana key={index}>{b}</ButtonSemana>)}
-                
-            </Habitos>))
+        return (
+            (habitos.map((a, index) =>
+                <Habitos key={index} data-identifier="habit-name">
+
+                    <h1>{a.name}</h1>
+
+
+                    <Semana>
+                        {a.days.map((b, index) => <ButtonSemana key={index}>{b}</ButtonSemana>)}
+                    </Semana>
+
+                </Habitos>)))
     }
 
     return (<>
@@ -70,18 +86,21 @@ export default function TelaHabitos() {
             <MeusHabitos>
                 <p>Meus hábitos</p>
                 <button
+                    data-identifier="create-habit-btn"
                     type="button"
                     onClick={() => {
                         setAddHabitos(true)
                         setName('')
                         setDays([])
                     }}
-                >+</button>
+                >
+                    +
+                </button>
             </MeusHabitos>
-
             {addHabitos ?
                 <AddHabito>
                     <input
+                        data-identifier="input-habit-name"
                         type="text"
                         placeholder="nome hábito"
                         value={name}
@@ -90,43 +109,56 @@ export default function TelaHabitos() {
                     <Form>
                         {semana.map((a, index) =>
                             <ButtonSemana
+                                data-identifier="week-day-btn"
                                 cor={days.includes(index) ? '#DBDBDB' : '#FFFFFF'}
                                 letra={days.includes(index) ? '#FFFFFF' : '#DBDBDB'}
                                 key={index}
                                 onClick={() => HabitoDays(a, index)}>
-                                    {a}
+                                {a}
                             </ButtonSemana>
                         )}
 
                     </Form>
                     <ButtonDiv>
-                        <ButtonCencelar 
-                        onClick={() => setAddHabitos(false)}
+                        <ButtonCencelar
+                            data-identifier="cancel-habit-create-btn"
+                            onClick={() => setAddHabitos(false)}
                         >
                             Cancelar
                         </ButtonCencelar>
 
-                        <ButtonSalvar 
-                        onClick={EnviarHabito}
-                        >
-                            Salvar
-                        </ButtonSalvar>
+                        {carregando ?
+                            <ButtonSalvar data-identifier="save-habit-create-btn">
+                                <ThreeDots
+                                    height="20"
+                                    width="40"
+                                    radius="9"
+                                    color="white"
+                                    ariaLabel="three-dots-loading"
+                                    wrapperStyle={{}}
+                                    wrapperClassName=""
+                                    visible={true}
+                                />
+                            </ButtonSalvar>
+                            :
+                            <ButtonSalvar
+                                onClick={EnviarHabito}
+                            >
+                                Salvar
+                            </ButtonSalvar>
+                        }
 
                     </ButtonDiv>
                 </AddHabito>
                 : <></>}
-
-            
-            <TextoAviso>
-                {habitos.length === 0?
-                <p> Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
-                 : 
-                <ListaHabitos /> 
+            <TextoAviso data-identifier="no-habit-message">
+                {habitos.length === 0 ?
+                    <p> Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
+                    :
+                    <ListaHabitos />
                 }
-              
+
             </TextoAviso>
-
-
         </DivContent>
         <Footer />
     </>)
@@ -134,6 +166,10 @@ export default function TelaHabitos() {
 
 
 //----------------------------------------------------------------------------------------
+
+const Semana = styled.div`
+    display: flex;
+`
 const Habitos = styled.div`
     width: 340px;
     height: 91px;
@@ -142,6 +178,7 @@ const Habitos = styled.div`
     border-radius: 5px;
     margin-bottom: 10px;
     display: flex;
+    flex-direction: column;
 `
 const ButtonSemana = styled.div`
     display: flex;
@@ -156,7 +193,6 @@ const ButtonSemana = styled.div`
     margin-right: 5px;
     cursor: pointer;
 `
-
 const ButtonCencelar = styled.button`
     width: 84px;
     height: 35px;
@@ -172,6 +208,9 @@ const ButtonCencelar = styled.button`
     cursor: pointer;
 `
 const ButtonSalvar = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 84px;
     height: 35px;
     font-family: 'Lexend Deca';
@@ -185,7 +224,6 @@ const ButtonSalvar = styled.button`
     border: none;
     cursor: pointer;
 `
-
 const ButtonDiv = styled.div`
     height: 60px;
     display: flex;
@@ -228,7 +266,6 @@ const DivContent = styled.div`
     margin-top: 70px;
     background-color: #F2F2F2;
 `
-
 const MeusHabitos = styled.div`
     margin: 28px 17px 28px 17px;
     display: flex;
@@ -257,28 +294,3 @@ const MeusHabitos = styled.div`
     }
 
 `
-
-
-
-
-/*<ButtonSemana value={"1"} onClick={(e) => setDays(e.target.value)}>
-                  D
-              </ButtonSemana>
-              <ButtonSemana value={2} onClick={Habito}>
-                  S
-              </ButtonSemana>
-              <ButtonSemana value={3}>
-                  T
-              </ButtonSemana>
-              <ButtonSemana value={4}>
-                  Q
-              </ButtonSemana>
-              <ButtonSemana value={5}>
-                  Q
-              </ButtonSemana>
-              <ButtonSemana value={6}>
-                  S
-              </ButtonSemana>
-              <ButtonSemana value={7}>
-                  S
-              </ButtonSemana>*/

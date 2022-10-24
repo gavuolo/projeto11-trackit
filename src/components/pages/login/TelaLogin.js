@@ -1,20 +1,23 @@
 import styled from "styled-components"
-import { Link, useNavigate} from "react-router-dom";
-import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import { AuthContext } from "../contexts/AuthContext";
+import { ThreeDots } from 'react-loader-spinner'
 
-
-export default function TelaLogin({icon}){
+export default function TelaLogin({ icon }) {
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [carregando, setCarregando] = useState(false)
 
     const navigate = useNavigate()
     const { user, setUser } = useContext(AuthContext)
 
-    function Entrar(){
-        const obj ={
+    function Entrar() {
+        setCarregando(true)
+
+        const obj = {
             password: password,
             email: email
         }
@@ -24,24 +27,32 @@ export default function TelaLogin({icon}){
             setUser(e.data)
             navigate("/hoje")
         })
-        post.catch(erro => alert(erro.data));
+        post.catch(erro => {
+            if (erro.response.status == 422) {
+                alert("Usuário não existente. Por favor, faça o cadastro.")
+            }
+            window.location.reload();
+        })
+
     }
-    return(
-        <> 
+    return (
+        <>
             <Icon>
                 <img src={icon} alt="icon" />
             </Icon>
             <DivInput>
                 <input
+                    data-identifier="input-email"
                     name="email"
-                    type="text" 
+                    type="text"
                     placeholder="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
+                    data-identifier="input-password"
                     name="password"
-                    type="text" 
+                    type="text"
                     placeholder="senha"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -49,9 +60,30 @@ export default function TelaLogin({icon}){
             </DivInput>
 
             <DivButton>
-                <button onClick={Entrar}>Entrar</button>
-                <Link to={`/cadastro`}>
-                <p>Não tem uma conta? Cadastre-se!</p>
+
+                {carregando ?
+                    <button disabled={true}>
+                        <DivLoadding>
+                            <ThreeDots
+                                height="30"
+                                width="80"
+                                radius="9"
+                                color="white"
+                                ariaLabel="three-dots-loading"
+                                wrapperStyle={{}}
+                                wrapperClassName=""
+                                visible={true}
+                            />
+                        </DivLoadding>
+                    </button>
+                    :
+                    <button data-identifier="login-btn" onClick={Entrar}>
+                        Entrar
+                    </button>
+                }
+
+                <Link data-identifier="sign-up-action" to={`/cadastro`}>
+                    <p>Não tem uma conta? Cadastre-se!</p>
                 </Link>
             </DivButton>
         </>
@@ -65,12 +97,10 @@ const Icon = styled.div`
     margin: 68px 0 30px 0;
   
 `
-
 const DivInput = styled.div`
     display: flex;
     flex-direction: column;
-    
-  & input{
+    & input{
         width: 303px;
         height: 45px;
         border: 1px solid #D5D5D5;
@@ -78,7 +108,6 @@ const DivInput = styled.div`
         margin-bottom: 6px;
     }
 `
-
 const DivButton = styled.div`
 
     display: flex;
@@ -86,6 +115,7 @@ const DivButton = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 13px;
+    margin: 0 auto;
     & button{
         width: 303px;
         height: 45px;
@@ -100,6 +130,8 @@ const DivButton = styled.div`
         cursor: pointer
     }
 `
-
-
-
+const DivLoadding = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`

@@ -2,17 +2,19 @@ import styled from "styled-components"
 import { useContext, useState } from "react";
 import { AuthContext } from "./contexts/AuthContext";
 
-export default function ToBar(){
-    const {user, setUser } = useContext(AuthContext)
+export default function ToBar() {
+    const { user, setUser } = useContext(AuthContext)
 
-    return(<>
-    <NavBar>
-        <DivIcon>
-            <p>TrackIt</p>
-        </DivIcon>
-        <DivImage src={user.image} alt="icon" />
-    </NavBar>
-   
+    return (<>
+        <NavBar>
+            <DivIcon>
+                <p>TrackIt</p>
+            </DivIcon>
+            <DivImage
+                data-identifier="avatar"
+                src={user.image} alt="icon" />
+        </NavBar>
+
     </>)
 }
 
