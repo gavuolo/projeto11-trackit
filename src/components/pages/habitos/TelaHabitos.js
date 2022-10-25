@@ -17,6 +17,7 @@ export default function TelaHabitos() {
     const [name, setName] = useState('')
     const [addHabitos, setAddHabitos] = useState(false)
     const [carregando, setCarregando] = useState(false)
+    const [arrayHabitos, setArrayHabitos] = useState([])
 
     const semana = ["D", "S", "T", "Q", "Q", "S", "S"]
     const token = user.token
@@ -27,9 +28,9 @@ export default function TelaHabitos() {
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits'
 
         axios.get(URL, headers)
-            .then((ress) => setHabitos(ress.data))
+            .then((ress) => setArrayHabitos(ress.data))
             .catch((ress) => console.log(ress.response.data.message))
-    }, [addHabitos, carregando, habitos])
+    }, [])
 
     function HabitoDays(a, index) {
         setDays([...days, index])
@@ -54,6 +55,7 @@ export default function TelaHabitos() {
         post.then(() => {
             setCarregando(false)
             setAddHabitos(false)
+            console.log('funcionou')
         })
         post.catch(erro => alert(erro.response.data.message))
 
@@ -71,10 +73,8 @@ export default function TelaHabitos() {
     }
 
     function ListaHabitos() {
-        console.log(habitos)
-
         return (
-            (habitos.map((a, index) =>
+            (arrayHabitos.map((a, index) =>
                 <Habitos
                     key={index}
                     data-identifier="habit-name"
@@ -176,7 +176,7 @@ export default function TelaHabitos() {
                 </AddHabito>
                 : <></>}
             <TextoAviso data-identifier="no-habit-message">
-                {habitos.length === 0 ?
+                {arrayHabitos.length === 0 ?
                     <p> Você não tem nenhum hábito cadastrado ainda. Adicione um hábito para começar a trackear!</p>
                     :
                     <ListaHabitos />
@@ -309,6 +309,7 @@ const DivContent = styled.div`
     width: 375px;
     height: 100%;
     margin-top: 70px;
+    margin-bottom: 100px;
     background-color: #F2F2F2;
 `
 const MeusHabitos = styled.div`

@@ -12,35 +12,33 @@ export default function TelaHoje() {
 
     const { user, setUser } = useContext(AuthContext)
     const { value, setValue } = useContext(AuthContext)
-    const { habitos, setHabitos } = useContext(AuthContext)
 
     const [habitosHoje, setHabitosHoje] = useState([])
     const token = user.token
     const headers = { headers: { Authorization: `Bearer ${token}` } }
     const [check, setCheck] = useState([])
 
-    let p = ((check.length) / (habitosHoje.length) * 100).toFixed(0)
-    setValue(p)
+   
 
     //const navigate = useNavigate()
     //console.log(habitos) 
     //testar dayjs
     //const dayjs = require('dayjs')
     //let dia = dayjs().format('dddd, DD/MM')
-    //console.log(dia)
-
     useEffect(() => {
-
         const URL = 'https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today'
         const get = axios.get(URL, headers)
         get.then((res) => {
             setHabitosHoje(res.data)
+            
         })
         get.catch((err) => console.log(err.response.data.message))
     }, []
     )
-
     function ClickCheck(a) {
+        let p = ((check.length) / (habitosHoje.length) * 100).toFixed(0)
+        setValue(p)
+        
         setCheck([...check, a])
 
         if (!check.includes(a)) {
@@ -51,11 +49,12 @@ export default function TelaHoje() {
         }
     }
     function HojeHabitos() {
+        
         if (habitosHoje !== 0) {
             return (
                 <>
                     {value > 0 ?
-                        <h9>{value}% dos hábitos concluídos</h9>
+                        <h6>{value}% dos hábitos concluídos</h6>
                         :
                         <p>Nenhum hábito concluído ainda</p>
                     }
@@ -81,22 +80,15 @@ export default function TelaHoje() {
                 </>
             )
         } else {
-            return (
-                <Loading
-                    size="1rem"
-                    margin="0rem"
-                    duration="0.5s"
-                    background="black"
-                />)
+            return (<p>tem nada</p>)
         }
     }
+
     return (<>
         <TopBar />
         <DivContent>
             <h1>Segunda, 17/05</h1>
-            <HojeHabitos
-
-            />
+            <HojeHabitos/>
         </DivContent>
         <Footer />
     </>)
@@ -125,7 +117,7 @@ const DivContent = styled.div`
         line-height: 22px;
         color: #BABABA;
     }
-    & h9{
+    & h6{
         margin-left: 17px;
         font-family: 'Lexend Deca';
         font-style: normal;
